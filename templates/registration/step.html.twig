@@ -9,7 +9,7 @@
         {{ form_widget(registrationForm) }}
 
         {% if step > 1 %}
-            <button onClick="window.location.href='{{ path('app_registration_step' ~ (step - 1)) }}'" class="btn">
+            <button type="button" onClick="window.location.href='{{ path('app_registration_step' ~ (step - 1)) }}'" class="btn">
                 Previous
             </button>
         {% endif %}

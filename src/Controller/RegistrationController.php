@@ -45,12 +45,12 @@ class RegistrationController extends AbstractController
      */
     public function step1(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $user = new User();
+        /** @var User $user */
+        $user = $this->session->get('registeringUser') ?: new User();
         $form = $this->createForm(PersonalDetailsType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -79,7 +79,7 @@ class RegistrationController extends AbstractController
 
         $this->redirectToPreviousStepIfIncompleteData($user, 2);
 
-        $address = new Address();
+        $address = $user->getAddress() ?: new Address();
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
 
@@ -106,7 +106,7 @@ class RegistrationController extends AbstractController
 
         $this->redirectToPreviousStepIfIncompleteData($user, 3);
 
-        $paymentDetails = new PaymentDetails();
+        $paymentDetails = $user->getPaymentDetails() ?: new PaymentDetails();
         $form = $this->createForm(PaymentDetailsType::class, $paymentDetails);
         $form->handleRequest($request);
 
@@ -118,6 +118,8 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $paymentDataManager->savePaymentData($user);
+
+            $this->session->set('registeringUser', $user);
 
             return $this->redirectToRoute('app_registration_step4');
         }
@@ -133,9 +135,17 @@ class RegistrationController extends AbstractController
      */
     public function success(): Response
     {
+        /** @var User $user */
+        $user = $this->session->get('registeringUser');
+
+        $this->redirectToPreviousStepIfIncompleteData($user, 4);
+
+        $paymentDataId = $user->getPaymentDetails()->getPaymentDataId();
         $this->session->remove('registeringUser');
 
-        return $this->render('registration/success.html.twig');
+        return $this->render('registration/success.html.twig', [
+            'paymentDataId' => $paymentDataId
+        ]);
     }
 
     private function redirectToPreviousStepIfIncompleteData(?User $user, int $step)
