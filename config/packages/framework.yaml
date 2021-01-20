@@ -15,3 +15,8 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    http_client:
+        scoped_clients:
+            payment_api.client:
+                base_uri: "https://37f32cl571.execute-api.eu-central-1.amazonaws.com/"

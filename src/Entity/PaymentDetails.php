@@ -27,6 +27,11 @@ class PaymentDetails
      */
     private $iban;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentDataId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class PaymentDetails
     public function setIban(string $iban): self
     {
         $this->iban = $iban;
+
+        return $this;
+    }
+
+    public function getPaymentDataId(): ?string
+    {
+        return $this->paymentDataId;
+    }
+
+    public function setPaymentDataId(?string $paymentDataId): self
+    {
+        $this->paymentDataId = $paymentDataId;
 
         return $this;
     }

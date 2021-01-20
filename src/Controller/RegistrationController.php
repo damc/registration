@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\AddressType;
 use App\Form\PaymentDetailsType;
 use App\Form\PersonalDetailsType;
+use App\Service\PaymentDataManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,7 +99,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/step3", name="app_registration_step3")
      */
-    public function step3(Request $request): Response
+    public function step3(Request $request, PaymentDataManager $paymentDataManager): Response
     {
         /** @var User $user */
         $user = $this->session->get('registeringUser');
@@ -115,6 +116,8 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $paymentDataManager->savePaymentData($user);
 
             return $this->redirectToRoute('app_registration_step4');
         }
