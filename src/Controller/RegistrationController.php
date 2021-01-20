@@ -77,7 +77,9 @@ class RegistrationController extends AbstractController
         /** @var User $user */
         $user = $this->session->get('registeringUser');
 
-        $this->redirectToPreviousStepIfIncompleteData($user, 2);
+        if ($response = $this->redirectToPreviousStepIfIncompleteData($user, 2)) {
+            return $response;
+        }
 
         $address = $user->getAddress() ?: new Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -104,7 +106,9 @@ class RegistrationController extends AbstractController
         /** @var User $user */
         $user = $this->session->get('registeringUser');
 
-        $this->redirectToPreviousStepIfIncompleteData($user, 3);
+        if ($response = $this->redirectToPreviousStepIfIncompleteData($user, 3)) {
+            return $response;
+        }
 
         $paymentDetails = $user->getPaymentDetails() ?: new PaymentDetails();
         $form = $this->createForm(PaymentDetailsType::class, $paymentDetails);
@@ -138,7 +142,9 @@ class RegistrationController extends AbstractController
         /** @var User $user */
         $user = $this->session->get('registeringUser');
 
-        $this->redirectToPreviousStepIfIncompleteData($user, 4);
+        if ($response = $this->redirectToPreviousStepIfIncompleteData($user, 4)) {
+            return $response;
+        }
 
         $paymentDataId = $user->getPaymentDetails()->getPaymentDataId();
         $this->session->remove('registeringUser');
@@ -148,13 +154,15 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    private function redirectToPreviousStepIfIncompleteData(?User $user, int $step)
+    private function redirectToPreviousStepIfIncompleteData(?User $user, int $step): ?Response
     {
         $currentStep = $this->getCurrentStep($user);
 
         if ($currentStep < $step) {
-            $this->redirectToStep($currentStep);
+            return $this->redirectToStep($currentStep);
         }
+
+        return null;
     }
 
     private function getCurrentStep(?User $user): int

@@ -20,7 +20,7 @@ class PaymentDataManager
         $this->paymentApiClient = $paymentApiClient;
         $this->entityManager = $entityManager;
     }
-    
+
     public function savePaymentData(User $user)
     {
         $body = [
