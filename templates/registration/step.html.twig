@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Registration</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_widget(registrationForm) }}
+
+        {% if step > 1 %}
+            <button onClick="window.location.href='{{ path('app_registration_step' ~ (step - 1)) }}'" class="btn">
+                Previous
+            </button>
+        {% endif %}
+        <button type="submit" class="btn">{{ (step == 3) ? 'Save' : 'Next' }}</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
