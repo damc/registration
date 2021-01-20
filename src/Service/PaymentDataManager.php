@@ -20,16 +20,7 @@ class PaymentDataManager
         $this->paymentApiClient = $paymentApiClient;
         $this->entityManager = $entityManager;
     }
-
-    /**
-     * @param User $user
-     * @throws UnexpectedStatusCodeException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
+    
     public function savePaymentData(User $user)
     {
         $body = [
