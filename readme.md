@@ -10,6 +10,8 @@ You have to have symfony binary installed which you can do by running:
 
 You can find more information in the documentation of Symfony 5.
 
+You also need to configure the database credentials in ``.env`` file (DATABASE_URL line).
+
 # Possible performance optimizations
 
 1. One of the requirement is that the user should be able to return to the step at which they ended when returning to registration, so the data that they already inserted must be saved. I decided to store that in session. It could be also saved to the database with flag enabled=false, but still we need store the information in session (or cookie) about which record is associated to that user. One of the possible performance optimization would be to change the way sessions are stored. Currently, they are stored in files. I expect that databases are optimized for fast retrieval, so I expect that storing them in database would be faster. I expect they would be the fastest if they were stored in Redis or Memcached database, rather than MySQL or other relational database because Redis and Memcache use hash table to store their data and hash table is faster on average than a table not using hashes to get the needed value (even if the field by which we search is indexed).
@@ -24,7 +26,7 @@ You can find more information in the documentation of Symfony 5.
 
 2. I could use JS to make the form steps working without reloading the page.
 
-3. The method ``savePaymentData`` uses ``PaymentApiClient`` to send a request to retrieve the paymentDataId and then saves it in the user. I think creating one more level of abstraction for the client could be useful, if the project would continue to be developed in the future. I would create class ``PaymentApiClient`` that would have ``sendPaymentData`` method which would be responsible for sending the request and returning the paymentDataID. ``savePaymentData`` would use that method. This could be potentially beneficial in the future because if there was another part in the project that needs to send that request (without saving it in the payment details), it could reuse the logic for handling the request.
+3. The method ``savePaymentData`` uses ``HttpClient`` to send a request to retrieve the paymentDataId and then saves it in the user. I think creating one more level of abstraction for the client could be useful, if the project would continue to be developed in the future. I would create class ``PaymentApiClient`` that would have ``sendPaymentData`` method which would be responsible for sending the request and returning the paymentDataID. ``savePaymentData`` would use that method. This could be potentially beneficial in the future because if there was another part in the project that needs to send that request (without saving it in the payment details), it could reuse the logic for handling the request.
 
 4. Handling exceptions. Instead of allowing them to crash the application, I could catch them, log them and display an error to the user.
 
