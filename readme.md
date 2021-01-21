@@ -16,6 +16,6 @@
 
 4. Handling exceptions. Instead of allowing them to crash the application, I could catch them, log them and display an error to the user.
 
-5. In order to display paymentDataID, I needed to save them somewhere. I am saving it in the User table, but in order to know which user's paymentDataId I need to display, I need to store that information somehow. PaymentDataID sounds like a confidential information, so I can't store the user id in the session because that could make it too easy to steal paymentDataID. For that reason I store the PaymentDataID in session. However, ideally the user should be authenticated after registration and redirected to a page that displays PaymentDataID for the currently authenticated user. I haven't done that because authentication functionality is not implmeneted in this project.
+5. In order to display paymentDataID, I needed to save them somewhere. I am saving it in the User table, but in order to know which user's paymentDataId I need to display, I need to store that information somehow. For that reason I store the PaymentDataID in session. However, ideally the user should be authenticated after registration and redirected to a page that displays PaymentDataID for the currently authenticated user. I haven't done that because authentication functionality is not implemented in this project.
 
-6. Unit testing could be added.
+7. Unit testing could be added.
