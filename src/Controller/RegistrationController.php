@@ -154,6 +154,22 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Redirect to the previous step if the data in $user is not
+     * complete given the step $step.
+     *
+     * E.g. if the step = 3, but the $user doesn't contain information
+     * about the address, then it means that we should get back to step
+     * 2 because the user hasn't filled the address details yet.
+     *
+     * It returns:
+     * a) the response, if we should redirect or
+     * b) null, if we shouldn't redirect.
+     *
+     * @param User|null $user
+     * @param int $step
+     * @return Response|null
+     */
     private function redirectToPreviousStepIfIncompleteData(?User $user, int $step): ?Response
     {
         $currentStep = $this->getCurrentStep($user);
@@ -165,6 +181,13 @@ class RegistrationController extends AbstractController
         return null;
     }
 
+    /**
+     * Get the step of the registration that should be displayed to the
+     * user, given the data in the session.
+     *
+     * @param User|null $user
+     * @return int
+     */
     private function getCurrentStep(?User $user): int
     {
         if (!$user) {
