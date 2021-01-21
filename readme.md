@@ -24,7 +24,7 @@ You can find more information in the documentation of Symfony 5.
 
 2. I could use JS to make the form steps working without reloading the page.
 
-3. The method ``savePaymentData`` uses ``PaymentApiClient`` to send a request to retrieve the paymentDataId and then saves it in the user. I think creating one more level of abstraction for the client could be useful, if the project would continue to be developed in the future. I would create class ``PaymentApiClient`` that would have ``sendPaymentData`` method which would be responsible for sending the request and returning the paymentDataID. ``savePaymentData`` would use that method. This could be potentially beneficial in the future because if there was another part in the project that needs to send that request (without saving it in the payment details), it could reuse the logic for handling the request.
+3. The method ``savePaymentData`` uses ``HttpClient`` to send a request to retrieve the paymentDataId and then saves it in the user. I think creating one more level of abstraction for the client could be useful, if the project would continue to be developed in the future. I would create class ``PaymentApiClient`` that would have ``sendPaymentData`` method which would be responsible for sending the request and returning the paymentDataID. ``savePaymentData`` would use that method. This could be potentially beneficial in the future because if there was another part in the project that needs to send that request (without saving it in the payment details), it could reuse the logic for handling the request.
 
 4. Handling exceptions. Instead of allowing them to crash the application, I could catch them, log them and display an error to the user.
 
