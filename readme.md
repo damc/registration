@@ -18,4 +18,6 @@
 
 5. In order to display paymentDataID, I needed to save them somewhere. I am saving it in the User table, but in order to know which user's paymentDataId I need to display, I need to store that information somehow. For that reason I store the PaymentDataID in session. However, ideally the user should be authenticated after registration and redirected to a page that displays PaymentDataID for the currently authenticated user. I haven't done that because authentication functionality is not implemented in this project.
 
+6. The session is removed in ``success()`` action and not after saving the row to the database because I need to display paymentDataId in the last step. This creates the problem that if you add the record, but something is wrong after that, then the session is not removed and then it will redirect you to that step again and if you try to add that user again, it will inform you that the user with that email already exists. The possible solution is: don't store paymentDataID in session and remove the session after adding the user; store userId in the session instead; later retrieve the paymentDataId from the database, not the session. Another possible solution is to add authentication as described above and dispaly paymentDataId of the currently authenticated user.
+
 7. Unit testing could be added.
