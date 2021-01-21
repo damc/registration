@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\UnexpectedStatusCodeException;
+use App\Exception\UnexpectedStatusCodeException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
