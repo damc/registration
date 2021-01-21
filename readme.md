@@ -1,3 +1,15 @@
+# Installation and usage
+
+In order to start the project, run:
+
+```symfony server:start```
+
+You have to have symfony binary installed which you can do by running:
+
+```wget https://get.symfony.com/cli/installer -O - | bash```
+
+You can find more information in the documentation of Symfony 5.
+
 # Possible performance optimizations
 
 1. One of the requirement is that the user should be able to return to the step at which they ended when returning to registration, so the data that they already inserted must be saved. I decided to store that in session. It could be also saved to the database with flag enabled=false, but still we need store the information in session (or cookie) about which record is associated to that user. One of the possible performance optimization would be to change the way sessions are stored. Currently, they are stored in files. I expect that databases are optimized for fast retrieval, so I expect that storing them in database would be faster. I expect they would be the fastest if they were stored in Redis or Memcached database, rather than MySQL or other relational database because Redis and Memcache use hash table to store their data and hash table is faster on average than a table not using hashes to get the needed value (even if the field by which we search is indexed).
